@@ -43,8 +43,9 @@ async function startSSE({ url, headers, body }) {
     });
 
     response.data.on("end", () => {
-      console.log("[信息] SSE 连接已关闭，输入 `r` 重新运行上次 SSE 请求");
+      console.log("[信息] SSE 连接已关闭");
       eventEmitter.emit("end");
+      console.log("[信息] 输入 `r` 重新运行上次 SSE 请求，或 `stop` 停止 SSE 请求");
     });
 
     response.data.on("error", (error) => {
@@ -56,11 +57,10 @@ async function startSSE({ url, headers, body }) {
     eventEmitter.once("stop", () => {
       response.data.destroy(); // 销毁连接
       console.log("[信息] SSE 请求已手动停止");
-      console.log('[提示] 输入 `r` 重新运行上次 SSE 请求')
     });
   } catch (error) {
     console.error(`[错误] SSE 连接失败: ${error.message}`);
-    console.log('[提示] 输入 `r` 重新运行上次 SSE 请求')
+    console.log("[信息] 输入 `r` 重新运行上次 SSE 请求，或 `stop` 停止 SSE 请求");
   }
 }
 
